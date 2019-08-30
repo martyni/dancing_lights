@@ -4,7 +4,8 @@ After=multi-user.target
 
 [Service]
 Type=simple
-ExecStart=/home/martyni/.virtualenvs/hue/bin/python /home/martyni/.virtualenvs/hue/hue/hue.py
+ExecStart=/home/martyni/Envs/hue/bin/python /home/martyni/Envs/hue/hue/hue.py
+
 StandardInput=tty-force
 
 [Install]
