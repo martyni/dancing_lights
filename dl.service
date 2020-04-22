@@ -1,12 +1,3 @@
-[Unit]
-Description=Dancing lights service
-After=multi-user.target
-
-[Service]
-Type=simple
-ExecStart=/home/martyni/Envs/hue/bin/python /home/martyni/Envs/hue/hue/hue.py
-
-StandardInput=tty-force
-
-[Install]
-WantedBy=multi-user.target
+#!/bin/bash
+HOME=/root
+/home/martyni/Envs/dancing_lights/bin/python /home/martyni/Envs/dancing_lights/dancing_lights/ser_lib.py

@@ -1,21 +1,16 @@
 import os
 from rgbxy import ColorHelper, Converter
 from random import randint
-from beautifulhue.api import Bridge
 from time import sleep
 from datetime import datetime, timedelta
+from beautifulhue.api import Bridge
+from hue_lib import get
 from serial import Serial
-from yaml import load, dump
+from autoyaml import load_config
 import request
 from pprint import pprint
-try:
-    from yaml import CLoader as Loader, CDumper as Dumper
-except ImportError:
-    from yaml import Loader, Dumper
 
-with open(os.path.expanduser('~/.dl.yml')) as config:
-    config = load(config.read(), Loader=Loader)
-
+config = load_config("dancing_lights")
 bridge = Bridge(device=config['device'], user=config['user'])
 LOG_LEVEL = "verbose"
 
@@ -37,9 +32,9 @@ def change_lights(colour2, colour1):
 
 def log(message, level="log"):
     if LOG_LEVEL=="verbose" and level == "log" or level == "error":
-       print datetime.utcnow(), message
+        pprint({datetime.utcnow(): message})
     elif LOG_LEVEL=="error" and level == "error":
-       print datetime.utcnow(), message
+        pprint({datetime.utcnow(): message})
 
 def get_hue_light_colours(left_light, right_light):
     resource = {'which':'all'}
