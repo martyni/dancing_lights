@@ -1,17 +1,16 @@
 DESCRIPTION="Dancing lights hue listener service"
-DESCRIPTION="Dancing lights hue listener service"
 PYTHON=$(which python)
 PWD=$(pwd)
-EXECUTABLE="/ser_lib.py"
+EXECUTABLE="/dl.sh"
 EXECUTABLE_PATH="${PWD}${EXECUTABLE}"
 
 echo [Unit]
 echo Description=Dancing lights service
-echo After=multi-user.target
+echo After=network-online.target
 echo 
 echo [Service]
 echo Type=simple
-echo ExecStart=$PYTHON $EXECUTABLE_PATH
+echo ExecStart=$EXECUTABLE_PATH
 echo 
 echo StandardInput=tty-force
 echo 

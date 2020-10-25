@@ -3,7 +3,7 @@
 // How many leds in your strip?
 #define NUM_LEDS 50
 // What delay do you want between updates?
-#define DELAY 40
+#define DELAY 4
 // Which pin is the Data pin for you lights?
 #define DATA_PIN 12
 // Which pin is the Data pin for you lights?

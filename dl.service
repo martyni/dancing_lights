@@ -1,3 +1,0 @@
-#!/bin/bash
-HOME=/root
-/home/martyni/Envs/dancing_lights/bin/python /home/martyni/Envs/dancing_lights/dancing_lights/ser_lib.py

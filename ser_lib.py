@@ -1,13 +1,16 @@
 from hue_lib import get_lights, set_color, get_rgb, get_xy
 from serial import Serial
 from time import sleep
+import socket
+import phue
 BRIGHTNESS = 1
 TIMEOUT = 1 
 SERIAL_PORT = "/dev/ttyUSB0"
 SER = Serial(SERIAL_PORT, 9600, timeout=TIMEOUT)
 def log(message):
-    pass
-    #print(message)
+    #pass
+    #pass
+    print(message)
 
 def serial_send(string, ser=SER):
     buff = b''
@@ -81,25 +84,43 @@ def main():
     sleep_time = 0
     sleep_max  = 0.5
     addition = 0.01
+    boring_counter = 0
+    boring_max = 600
+    mode = 'hue_sync'
+    count=0
     try:
         while True:
             right_color = make_vibrant(*get_color(right_light))
             left_color  = make_vibrant(*get_color(left_light))
             if right_color != old_right or left_color != old_left:
-                log('{} {}'.format(right_color, left_color))
+                mode = 'hue_sync'
+                log(' right {} left {}'.format(right_color, left_color))
                 set_lights(left_color, right_color, BRIGHTNESS)
-                sleep_time = 0
+                sleep_time = 0.2
+                boring_counter = 0
             else:
-                #log(sleep_time)
+                log(sleep_time)
                 sleep(sleep_time)
                 if sleep_time < sleep_max:
                     sleep_time += addition
+                if boring_counter < boring_max:
+                    boring_counter += 1
+                elif mode != 'random':    
+                    serial_send('random\n')
+                    sleep_time = 2
+                    mode = 'random'
             total += 1
-            old_right = right_color
-            old_left = left_color
+            old_right = tuple(right_color)
+            old_left = tuple(left_color)
+            count += 1
+    except (socket.timeout, phue.PhueRequestTimeout) as error:
+        log('telnet error: {}'.format( error))
+        log('timeout')
+        sleep(2)
+        main() 
     except:
        serial_send('random\n')
-    
+       print('sent random')
 
 
 if __name__ == "__main__":
